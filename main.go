@@ -5,8 +5,9 @@ import (
 	"fmt"
 
 	"github.com/golang/glog"
-	"github.com/yxlimo/protoc-gen-go-json/gen"
 	"google.golang.org/protobuf/compiler/protogen"
+
+	"github.com/yxlimo/protoc-gen-go-json/gen"
 )
 
 var (
@@ -25,10 +26,10 @@ func main() {
 	}.Run(func(gp *protogen.Plugin) error {
 
 		opts := gen.Options{
-			EnumsAsInts:        *enumsAsInts,
-			EmitDefaults:       *emitDefaults,
-			OrigName:           *origName,
-			AllowUnknownFields: *allowUnknown,
+			UseEnumNumbers:  *enumsAsInts,
+			EmitUnpopulated: *emitDefaults,
+			UseProtoNames:   *origName,
+			DiscardUnknown:  *allowUnknown,
 		}
 
 		for _, name := range gp.Request.FileToGenerate {

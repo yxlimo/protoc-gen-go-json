@@ -1,0 +1,8 @@
+version: v1beta1
+name: buf.build/yxlimo/protoc-gen-go-json
+build:
+  roots:
+    - .
+lint:
+  use:
+    - DEFAULT

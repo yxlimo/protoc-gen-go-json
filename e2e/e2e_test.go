@@ -25,6 +25,7 @@ func TestTable(t *testing.T) {
 				B: &Basic_Int{
 					Int: 42,
 				},
+				Map: map[string]string{},
 			},
 			nil,
 		},
@@ -37,6 +38,7 @@ func TestTable(t *testing.T) {
 					B: &Basic_Int{
 						Int: 42,
 					},
+					Map: map[string]string{},
 				},
 			},
 			nil,
@@ -50,6 +52,7 @@ func TestTable(t *testing.T) {
 					B: &Basic_Int{
 						Int: 42,
 					},
+					Map: map[string]string{},
 				},
 			},
 			nil,

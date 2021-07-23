@@ -10,10 +10,10 @@ import (
 
 // Options are the options to set for rendering the template.
 type Options struct {
-	EnumsAsInts        bool
-	EmitDefaults       bool
-	OrigName           bool
-	AllowUnknownFields bool
+	UseEnumNumbers  bool
+	EmitUnpopulated bool
+	UseProtoNames   bool
+	DiscardUnknown  bool
 }
 
 // This function is called with a param which contains the entire definition of a method.
@@ -78,16 +78,16 @@ import (
 // MarshalJSON implements json.Marshaler
 func (msg *{{.GoIdent.GoName}}) MarshalJSON() ([]byte,error) {
 	return protojson.MarshalOptions {
-		UseEnumNumbers: {{.EnumsAsInts}},
-		EmitUnpopulated: {{.EmitDefaults}},
-		UseProtoNames: {{.OrigName}},
+		UseEnumNumbers: {{.UseEnumNumbers}},
+		EmitUnpopulated: {{.EmitUnpopulated}},
+		UseProtoNames: {{.UseProtoNames}},
 	}.Marshal(msg)
 }
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *{{.GoIdent.GoName}}) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions {
-		DiscardUnknown: {{.AllowUnknownFields}},
+		DiscardUnknown: {{.DiscardUnknown}},
 	}.Unmarshal(b, msg)
 }
 `))
