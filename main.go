@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/golang/glog"
-	"github.com/mitchellh/protoc-gen-go-json/gen"
+	"github.com/yxlimo/protoc-gen-go-json/gen"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
