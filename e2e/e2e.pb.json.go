@@ -4,53 +4,175 @@
 package e2e
 
 import (
+	"database/sql/driver"
+	"fmt"
+
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
+var _ driver.Valuer
+
 // MarshalJSON implements json.Marshaler
 func (msg *Basic) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{
+	value, err := protojson.MarshalOptions{
+		Multiline:       false,
 		UseEnumNumbers:  false,
 		EmitUnpopulated: true,
 		UseProtoNames:   true,
+		AllowPartial:    false,
 	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON Basic: %w", err)
+	}
+	return value, nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *Basic) UnmarshalJSON(b []byte) error {
-	return protojson.UnmarshalOptions{
+	err := protojson.UnmarshalOptions{
+		AllowPartial:   false,
 		DiscardUnknown: true,
 	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON Basic: %w", err)
+	}
+	return nil
+}
+
+func (msg *Basic) Scan(src interface{}) error {
+	if msg == nil {
+		return fmt.Errorf("scan into nil Basic")
+	}
+	var value []byte
+	switch v := src.(type) {
+	case []byte:
+		value = v
+	case string:
+		value = []byte(v)
+	default:
+		return fmt.Errorf("can't convert %v to Basic, unsupported type %T", src, src)
+	}
+
+	if err := msg.UnmarshalJSON(value); err != nil {
+		return fmt.Errorf("can't unmarshal Basic: %w", err)
+	}
+	return nil
+}
+
+func (msg Basic) Value() (driver.Value, error) {
+	value, err := msg.MarshalJSON()
+	if err != nil {
+		return nil, fmt.Errorf("can't marshal Basic: %w", err)
+	}
+	return value, nil
 }
 
 // MarshalJSON implements json.Marshaler
 func (msg *Nested) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{
+	value, err := protojson.MarshalOptions{
+		Multiline:       false,
 		UseEnumNumbers:  false,
 		EmitUnpopulated: true,
 		UseProtoNames:   true,
+		AllowPartial:    false,
 	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON Nested: %w", err)
+	}
+	return value, nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *Nested) UnmarshalJSON(b []byte) error {
-	return protojson.UnmarshalOptions{
+	err := protojson.UnmarshalOptions{
+		AllowPartial:   false,
 		DiscardUnknown: true,
 	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON Nested: %w", err)
+	}
+	return nil
+}
+
+func (msg *Nested) Scan(src interface{}) error {
+	if msg == nil {
+		return fmt.Errorf("scan into nil Nested")
+	}
+	var value []byte
+	switch v := src.(type) {
+	case []byte:
+		value = v
+	case string:
+		value = []byte(v)
+	default:
+		return fmt.Errorf("can't convert %v to Nested, unsupported type %T", src, src)
+	}
+
+	if err := msg.UnmarshalJSON(value); err != nil {
+		return fmt.Errorf("can't unmarshal Nested: %w", err)
+	}
+	return nil
+}
+
+func (msg Nested) Value() (driver.Value, error) {
+	value, err := msg.MarshalJSON()
+	if err != nil {
+		return nil, fmt.Errorf("can't marshal Nested: %w", err)
+	}
+	return value, nil
 }
 
 // MarshalJSON implements json.Marshaler
 func (msg *Nested_Message) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{
+	value, err := protojson.MarshalOptions{
+		Multiline:       false,
 		UseEnumNumbers:  false,
 		EmitUnpopulated: true,
 		UseProtoNames:   true,
+		AllowPartial:    false,
 	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON Nested_Message: %w", err)
+	}
+	return value, nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *Nested_Message) UnmarshalJSON(b []byte) error {
-	return protojson.UnmarshalOptions{
+	err := protojson.UnmarshalOptions{
+		AllowPartial:   false,
 		DiscardUnknown: true,
 	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON Nested_Message: %w", err)
+	}
+	return nil
+}
+
+func (msg *Nested_Message) Scan(src interface{}) error {
+	if msg == nil {
+		return fmt.Errorf("scan into nil Nested_Message")
+	}
+	var value []byte
+	switch v := src.(type) {
+	case []byte:
+		value = v
+	case string:
+		value = []byte(v)
+	default:
+		return fmt.Errorf("can't convert %v to Nested_Message, unsupported type %T", src, src)
+	}
+
+	if err := msg.UnmarshalJSON(value); err != nil {
+		return fmt.Errorf("can't unmarshal Nested_Message: %w", err)
+	}
+	return nil
+}
+
+func (msg Nested_Message) Value() (driver.Value, error) {
+	value, err := msg.MarshalJSON()
+	if err != nil {
+		return nil, fmt.Errorf("can't marshal Nested_Message: %w", err)
+	}
+	return value, nil
 }

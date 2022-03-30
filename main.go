@@ -7,14 +7,18 @@ import (
 	"github.com/golang/glog"
 	"google.golang.org/protobuf/compiler/protogen"
 
-	"github.com/yxlimo/protoc-gen-go-json/gen"
+	"github.com/yxlimo/protoc-gen-go-json/v2/gen"
 )
 
 var (
-	enumsAsInts  = flag.Bool("enums_as_ints", false, "render enums as integers as opposed to strings")
-	emitDefaults = flag.Bool("emit_defaults", false, "render fields with zero values")
-	origName     = flag.Bool("orig_name", false, "use original (.proto) name for fields")
-	allowUnknown = flag.Bool("allow_unknown", false, "allow messages to contain unknown fields when unmarshaling")
+	multiline       = flag.Bool("multiline", false, "generate multiline json")
+	useEnumNumbers  = flag.Bool("use_enum_numbers", false, "render enums as integers as opposed to strings")
+	emitUnpopulated = flag.Bool("emit_unpopulated", false, "render fields with zero values")
+	userProtoNames  = flag.Bool("use_proto_names", false, "use original (.proto) name for fields")
+	allowPartial    = flag.Bool("allow_partial", false, "allow partial results")
+	discardUnknown  = flag.Bool("discard_unknown", true, "allow messages to contain unknown fields when unmarshaling")
+
+	sqlSupport = flag.Bool("sql_support", false, "generate sql.Scanner and driver.Valuer method")
 )
 
 func main() {
@@ -26,10 +30,13 @@ func main() {
 	}.Run(func(gp *protogen.Plugin) error {
 
 		opts := gen.Options{
-			UseEnumNumbers:  *enumsAsInts,
-			EmitUnpopulated: *emitDefaults,
-			UseProtoNames:   *origName,
-			DiscardUnknown:  *allowUnknown,
+			Multiline:       *multiline,
+			UseEnumNumbers:  *useEnumNumbers,
+			EmitUnpopulated: *emitUnpopulated,
+			UseProtoNames:   *userProtoNames,
+			AllowPartial:    *allowPartial,
+			DiscardUnknown:  *discardUnknown,
+			SqlSupport:      *sqlSupport,
 		}
 
 		for _, name := range gp.Request.FileToGenerate {

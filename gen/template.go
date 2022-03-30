@@ -10,15 +10,22 @@ import (
 
 // Options are the options to set for rendering the template.
 type Options struct {
+	// marshal options
+	Multiline       bool
 	UseEnumNumbers  bool
 	EmitUnpopulated bool
 	UseProtoNames   bool
-	DiscardUnknown  bool
+	// options both work in marshal and unmarshal options
+	AllowPartial bool
+	// unmarshal options
+	DiscardUnknown bool
+
+	// generate sql.Scanner and driver.Valuer method for message
+	SqlSupport bool
 }
 
 // This function is called with a param which contains the entire definition of a method.
 func ApplyTemplate(w io.Writer, f *protogen.File, opts Options) error {
-
 	if err := headerTemplate.Execute(w, tplHeader{
 		File: f,
 	}); err != nil {
@@ -70,25 +77,73 @@ var (
 package {{.GoPackageName}}
 
 import (
+	"fmt"
+	"database/sql/driver"
+
 	"google.golang.org/protobuf/encoding/protojson"
 )
+
+var _ driver.Valuer
+
 `))
 
 	messageTemplate = template.Must(template.New("message").Parse(`
 // MarshalJSON implements json.Marshaler
 func (msg *{{.GoIdent.GoName}}) MarshalJSON() ([]byte,error) {
-	return protojson.MarshalOptions {
+	value, err :=  protojson.MarshalOptions{
+		Multiline: {{.Multiline}},
 		UseEnumNumbers: {{.UseEnumNumbers}},
 		EmitUnpopulated: {{.EmitUnpopulated}},
 		UseProtoNames: {{.UseProtoNames}},
+		AllowPartial: {{.AllowPartial}},
 	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON {{.GoIdent.GoName}}: %w", err)
+	}
+	return value, nil
 }
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *{{.GoIdent.GoName}}) UnmarshalJSON(b []byte) error {
-	return protojson.UnmarshalOptions {
+	err := protojson.UnmarshalOptions{
+		AllowPartial: {{.AllowPartial}},
 		DiscardUnknown: {{.DiscardUnknown}},
 	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON {{.GoIdent.GoName}}: %w", err)
+	}
+	return nil
 }
+
+{{if .SqlSupport}}
+func (msg *{{.GoIdent.GoName}}) Scan(src interface{}) error {
+	if msg == nil {
+		return fmt.Errorf("scan into nil {{.GoIdent.GoName}}")
+	}
+	var value []byte
+	switch v := src.(type) {
+	case []byte:
+		value = v
+	case string:
+		value = []byte(v)
+	default:
+		return fmt.Errorf("can't convert %v to {{.GoIdent.GoName}}, unsupported type %T", src, src)
+	}
+	
+	if err := msg.UnmarshalJSON(value); err != nil {
+		return fmt.Errorf("can't unmarshal {{.GoIdent.GoName}}: %w", err)
+	}
+	return nil
+}
+
+func (msg {{.GoIdent.GoName}}) Value() (driver.Value, error) {
+	value, err := msg.MarshalJSON()
+	if err != nil {
+		return nil, fmt.Errorf("can't marshal {{.GoIdent.GoName}}: %w", err)
+	}
+	return value, nil
+}
+{{end}}
+
 `))
 )

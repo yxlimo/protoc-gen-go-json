@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package e2e;
 
-option go_package = "github.com/yxlimo/protoc-gen-go-json/e2e";
+option go_package = "github.com/yxlimo/protoc-gen-go-json/v2/e2e";
 
 import "e2e/e2e.proto";
 

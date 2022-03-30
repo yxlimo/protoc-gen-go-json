@@ -12,6 +12,7 @@ plugins:
     out: .
     opt:
       - paths=source_relative
-      - emit_defaults=true
-      - orig_name=true
-      - allow_unknown=true
+      - emit_unpopulated=true
+      - use_proto_names=true
+      - discard_unknown=true
+      - sql_support=true

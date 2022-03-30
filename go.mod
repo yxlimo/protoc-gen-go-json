@@ -1,4 +1,4 @@
-module github.com/yxlimo/protoc-gen-go-json
+module github.com/yxlimo/protoc-gen-go-json/v2
 
 go 1.13
 

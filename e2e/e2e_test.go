@@ -1,6 +1,7 @@
 package e2e
 
 import (
+	"database/sql/driver"
 	"encoding/json"
 	"reflect"
 	"testing"
@@ -80,6 +81,19 @@ func TestTable(t *testing.T) {
 			val := reflect.New(reflect.ValueOf(expected).Elem().Type())
 			require.NoError(json.Unmarshal(bs, val.Interface()))
 			require.Equal(val.Interface(), expected)
+
+			// Verify Scan doesn't error
+			newValue := reflect.New(reflect.TypeOf(tt.Value).Elem())
+			newValue.MethodByName("Scan").Call([]reflect.Value{reflect.ValueOf(bs)})
+			require.Equal(val.Interface(), newValue.Interface())
+
+			newValue = reflect.New(reflect.TypeOf(tt.Value).Elem())
+			newValue.MethodByName("Scan").Call([]reflect.Value{reflect.ValueOf(string(bs))})
+			require.Equal(val.Interface(), newValue.Interface())
+
+			// Verify Value doesn't error
+			_, err = tt.Value.(driver.Valuer).Value()
+			require.NoError(err)
 		})
 	}
 }
