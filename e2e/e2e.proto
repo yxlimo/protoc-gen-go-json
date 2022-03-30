@@ -23,3 +23,14 @@ message Nested {
     Basic basic = 1;
   }
 }
+
+
+message HasValueMsg {
+  string field_1 = 1;
+  string value = 2;
+}
+
+message HasScanMsg {
+  string field_1 = 1;
+  string scan = 2;
+}

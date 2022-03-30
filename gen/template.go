@@ -51,10 +51,25 @@ func applyMessages(w io.Writer, msgs []*protogen.Message, opts Options) error {
 			return err
 		}
 
+		var canGenSql = true
+		for _, f := range m.Fields {
+			if f.GoName == "Value" || f.GoName == "Scan" {
+				canGenSql = false
+				break
+			}
+		}
+		if opts.SqlSupport && canGenSql {
+			if err := sqlTemplate.Execute(w, tplMessage{
+				Message: m,
+				Options: opts,
+			}); err != nil {
+				return err
+			}
+		}
+
 		if err := applyMessages(w, m.Messages, opts); err != nil {
 			return err
 		}
-
 	}
 
 	return nil
@@ -115,7 +130,11 @@ func (msg *{{.GoIdent.GoName}}) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-{{if .SqlSupport}}
+
+`))
+
+	sqlTemplate = template.Must(template.New("sql").Parse(`
+// Scan implements sql.Scanner
 func (msg *{{.GoIdent.GoName}}) Scan(src interface{}) error {
 	if msg == nil {
 		return fmt.Errorf("scan into nil {{.GoIdent.GoName}}")
@@ -136,6 +155,7 @@ func (msg *{{.GoIdent.GoName}}) Scan(src interface{}) error {
 	return nil
 }
 
+// Value implements driver.Valuer
 func (msg {{.GoIdent.GoName}}) Value() (driver.Value, error) {
 	value, err := msg.MarshalJSON()
 	if err != nil {
@@ -143,7 +163,6 @@ func (msg {{.GoIdent.GoName}}) Value() (driver.Value, error) {
 	}
 	return value, nil
 }
-{{end}}
 
 `))
 )

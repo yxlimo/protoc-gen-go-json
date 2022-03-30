@@ -39,6 +39,7 @@ func (msg *Basic) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// Scan implements sql.Scanner
 func (msg *Basic) Scan(src interface{}) error {
 	if msg == nil {
 		return fmt.Errorf("scan into nil Basic")
@@ -59,6 +60,7 @@ func (msg *Basic) Scan(src interface{}) error {
 	return nil
 }
 
+// Value implements driver.Valuer
 func (msg Basic) Value() (driver.Value, error) {
 	value, err := msg.MarshalJSON()
 	if err != nil {
@@ -94,6 +96,7 @@ func (msg *Nested) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// Scan implements sql.Scanner
 func (msg *Nested) Scan(src interface{}) error {
 	if msg == nil {
 		return fmt.Errorf("scan into nil Nested")
@@ -114,6 +117,7 @@ func (msg *Nested) Scan(src interface{}) error {
 	return nil
 }
 
+// Value implements driver.Valuer
 func (msg Nested) Value() (driver.Value, error) {
 	value, err := msg.MarshalJSON()
 	if err != nil {
@@ -149,6 +153,7 @@ func (msg *Nested_Message) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// Scan implements sql.Scanner
 func (msg *Nested_Message) Scan(src interface{}) error {
 	if msg == nil {
 		return fmt.Errorf("scan into nil Nested_Message")
@@ -169,10 +174,65 @@ func (msg *Nested_Message) Scan(src interface{}) error {
 	return nil
 }
 
+// Value implements driver.Valuer
 func (msg Nested_Message) Value() (driver.Value, error) {
 	value, err := msg.MarshalJSON()
 	if err != nil {
 		return nil, fmt.Errorf("can't marshal Nested_Message: %w", err)
 	}
 	return value, nil
+}
+
+// MarshalJSON implements json.Marshaler
+func (msg *HasValueMsg) MarshalJSON() ([]byte, error) {
+	value, err := protojson.MarshalOptions{
+		Multiline:       false,
+		UseEnumNumbers:  false,
+		EmitUnpopulated: true,
+		UseProtoNames:   true,
+		AllowPartial:    false,
+	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON HasValueMsg: %w", err)
+	}
+	return value, nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler
+func (msg *HasValueMsg) UnmarshalJSON(b []byte) error {
+	err := protojson.UnmarshalOptions{
+		AllowPartial:   false,
+		DiscardUnknown: true,
+	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON HasValueMsg: %w", err)
+	}
+	return nil
+}
+
+// MarshalJSON implements json.Marshaler
+func (msg *HasScanMsg) MarshalJSON() ([]byte, error) {
+	value, err := protojson.MarshalOptions{
+		Multiline:       false,
+		UseEnumNumbers:  false,
+		EmitUnpopulated: true,
+		UseProtoNames:   true,
+		AllowPartial:    false,
+	}.Marshal(msg)
+	if err != nil {
+		return nil, fmt.Errorf("marshalJSON HasScanMsg: %w", err)
+	}
+	return value, nil
+}
+
+// UnmarshalJSON implements json.Unmarshaler
+func (msg *HasScanMsg) UnmarshalJSON(b []byte) error {
+	err := protojson.UnmarshalOptions{
+		AllowPartial:   false,
+		DiscardUnknown: true,
+	}.Unmarshal(b, msg)
+	if err != nil {
+		return fmt.Errorf("unmarshalJSON HasScanMsg: %w", err)
+	}
+	return nil
 }

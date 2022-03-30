@@ -157,6 +157,116 @@ func (*Nested) Descriptor() ([]byte, []int) {
 	return file_e2e_e2e_proto_rawDescGZIP(), []int{1}
 }
 
+type HasValueMsg struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Field_1 string `protobuf:"bytes,1,opt,name=field_1,json=field1,proto3" json:"field_1,omitempty"`
+	Value   string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *HasValueMsg) Reset() {
+	*x = HasValueMsg{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_e2e_e2e_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *HasValueMsg) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HasValueMsg) ProtoMessage() {}
+
+func (x *HasValueMsg) ProtoReflect() protoreflect.Message {
+	mi := &file_e2e_e2e_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HasValueMsg.ProtoReflect.Descriptor instead.
+func (*HasValueMsg) Descriptor() ([]byte, []int) {
+	return file_e2e_e2e_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *HasValueMsg) GetField_1() string {
+	if x != nil {
+		return x.Field_1
+	}
+	return ""
+}
+
+func (x *HasValueMsg) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+type HasScanMsg struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Field_1 string `protobuf:"bytes,1,opt,name=field_1,json=field1,proto3" json:"field_1,omitempty"`
+	Scan    string `protobuf:"bytes,2,opt,name=scan,proto3" json:"scan,omitempty"`
+}
+
+func (x *HasScanMsg) Reset() {
+	*x = HasScanMsg{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_e2e_e2e_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *HasScanMsg) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HasScanMsg) ProtoMessage() {}
+
+func (x *HasScanMsg) ProtoReflect() protoreflect.Message {
+	mi := &file_e2e_e2e_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HasScanMsg.ProtoReflect.Descriptor instead.
+func (*HasScanMsg) Descriptor() ([]byte, []int) {
+	return file_e2e_e2e_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *HasScanMsg) GetField_1() string {
+	if x != nil {
+		return x.Field_1
+	}
+	return ""
+}
+
+func (x *HasScanMsg) GetScan() string {
+	if x != nil {
+		return x.Scan
+	}
+	return ""
+}
+
 type Nested_Message struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -168,7 +278,7 @@ type Nested_Message struct {
 func (x *Nested_Message) Reset() {
 	*x = Nested_Message{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_e2e_e2e_proto_msgTypes[3]
+		mi := &file_e2e_e2e_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -181,7 +291,7 @@ func (x *Nested_Message) String() string {
 func (*Nested_Message) ProtoMessage() {}
 
 func (x *Nested_Message) ProtoReflect() protoreflect.Message {
-	mi := &file_e2e_e2e_proto_msgTypes[3]
+	mi := &file_e2e_e2e_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,11 +331,18 @@ var file_e2e_e2e_proto_rawDesc = []byte{
 	0x02, 0x38, 0x01, 0x42, 0x03, 0x0a, 0x01, 0x62, 0x22, 0x35, 0x0a, 0x06, 0x4e, 0x65, 0x73, 0x74,
 	0x65, 0x64, 0x1a, 0x2b, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x20, 0x0a,
 	0x05, 0x62, 0x61, 0x73, 0x69, 0x63, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x65,
-	0x32, 0x65, 0x2e, 0x42, 0x61, 0x73, 0x69, 0x63, 0x52, 0x05, 0x62, 0x61, 0x73, 0x69, 0x63, 0x42,
-	0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x79, 0x78,
-	0x6c, 0x69, 0x6d, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x2d, 0x67, 0x65, 0x6e, 0x2d,
-	0x67, 0x6f, 0x2d, 0x6a, 0x73, 0x6f, 0x6e, 0x2f, 0x76, 0x32, 0x2f, 0x65, 0x32, 0x65, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x32, 0x65, 0x2e, 0x42, 0x61, 0x73, 0x69, 0x63, 0x52, 0x05, 0x62, 0x61, 0x73, 0x69, 0x63, 0x22,
+	0x3c, 0x0a, 0x0b, 0x48, 0x61, 0x73, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4d, 0x73, 0x67, 0x12, 0x17,
+	0x0a, 0x07, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x31, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x39, 0x0a,
+	0x0a, 0x48, 0x61, 0x73, 0x53, 0x63, 0x61, 0x6e, 0x4d, 0x73, 0x67, 0x12, 0x17, 0x0a, 0x07, 0x66,
+	0x69, 0x65, 0x6c, 0x64, 0x5f, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x66, 0x69,
+	0x65, 0x6c, 0x64, 0x31, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x63, 0x61, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x73, 0x63, 0x61, 0x6e, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x79, 0x78, 0x6c, 0x69, 0x6d, 0x6f, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x63, 0x2d, 0x67, 0x65, 0x6e, 0x2d, 0x67, 0x6f, 0x2d, 0x6a, 0x73, 0x6f, 0x6e,
+	0x2f, 0x76, 0x32, 0x2f, 0x65, 0x32, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -240,15 +357,17 @@ func file_e2e_e2e_proto_rawDescGZIP() []byte {
 	return file_e2e_e2e_proto_rawDescData
 }
 
-var file_e2e_e2e_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_e2e_e2e_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_e2e_e2e_proto_goTypes = []interface{}{
 	(*Basic)(nil),          // 0: e2e.Basic
 	(*Nested)(nil),         // 1: e2e.Nested
-	nil,                    // 2: e2e.Basic.MapEntry
-	(*Nested_Message)(nil), // 3: e2e.Nested.Message
+	(*HasValueMsg)(nil),    // 2: e2e.HasValueMsg
+	(*HasScanMsg)(nil),     // 3: e2e.HasScanMsg
+	nil,                    // 4: e2e.Basic.MapEntry
+	(*Nested_Message)(nil), // 5: e2e.Nested.Message
 }
 var file_e2e_e2e_proto_depIdxs = []int32{
-	2, // 0: e2e.Basic.map:type_name -> e2e.Basic.MapEntry
+	4, // 0: e2e.Basic.map:type_name -> e2e.Basic.MapEntry
 	0, // 1: e2e.Nested.Message.basic:type_name -> e2e.Basic
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
@@ -287,7 +406,31 @@ func file_e2e_e2e_proto_init() {
 				return nil
 			}
 		}
+		file_e2e_e2e_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HasValueMsg); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_e2e_e2e_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HasScanMsg); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_e2e_e2e_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Nested_Message); i {
 			case 0:
 				return &v.state
@@ -310,7 +453,7 @@ func file_e2e_e2e_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_e2e_e2e_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
